@@ -207,7 +207,7 @@ class DatabaseSeeder extends Seeder
 
         $product = new Product();
         $product->title = 'Keycord';
-        $product->description = 'Keycord met logo\'s van Scouting Raamsdonksveer';
+        $product->description = 'Keycord met logo\'s van 4Shop';
         $product->price = 1.00;
         $product->leiding = false;
         $product->image = 'img/keycords.jpg';

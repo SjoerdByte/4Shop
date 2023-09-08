@@ -1,7 +1,7 @@
 <h1>Bestelling #{{ $order->slug }}</h1>
 <p><em>{{ $order->name }} ({{ $order->speltak }})</em></p>
 
-<p>Uw bestelling is geplaatst! U ontvangt een mail zodra de bestelling opgehaald kan worden op het Scoutinggebouw.</p>
+<p>Uw bestelling is geplaatst! U ontvangt een mail zodra de bestelling opgehaald kan worden op het 4Shop.</p>
 
 @if(!$order->payed)
     <h3>Nog niet betaald</h3>

@@ -11,7 +11,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Winkel - Scouting Raamsdonksveer</title>
+    <title>Winkel - 4Shop</title>
 
     <!-- Styles -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -20,7 +20,7 @@
 
     @foreach($orders as $order)
         <div class="container m-5" style="page-break-after: always;">
-            
+
             <h1>Bestelling #{{ $order-> slug}}</h1>
             <p class="lead">
                 {{ ucfirst($order->speltak) }} - {{ $order->name }}
@@ -34,10 +34,10 @@
                         <td><small><em>{{ $rule->description }}</em></small></td>
                     </tr>
                 @endforeach
-            </table>            
+            </table>
         </div>
     @endforeach
-    
+
     <script type="text/javascript">window.print()</script>
 </body>
 </html>

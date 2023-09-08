@@ -1,7 +1,7 @@
 <h1>Bestelling #{{ $order->slug }}</h1>
 <p><em>{{ $order->name }} ({{ $order->speltak }})</em></p>
 
-<p>Uw bestelling is aangekomen op het Scoutinggebouw! Het is voor ons erg handig als u het bovenstaande nummer bij de hand heeft bij het ophalen.</p>
+<p>Uw bestelling is aangekomen op het 4Shop gebouw! Het is voor ons erg handig als u het bovenstaande nummer bij de hand heeft bij het ophalen.</p>
 
 <p><strong>Ophalen</strong></p>
 <p>{{ $pickup }}</p>

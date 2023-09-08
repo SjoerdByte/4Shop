@@ -20,7 +20,7 @@ class IdealController extends Controller
             //         "currency" => "EUR",
             //         "value" => $order->amount
             //     ],
-            //     "description" => "Scouting Rveer Winkel #" . $order->slug,
+            //     "description" => "4Shopl #" . $order->slug,
             //     "redirectUrl" => url('ideal/finish/' . $order->id),
             //     "method"      => 'ideal',
             //     "metadata"    => json_encode([
