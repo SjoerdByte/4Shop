@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Order_rule;
 use Illuminate\Http\Request;
@@ -11,8 +12,10 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::where('active', true)->get();
+        $categories = Category::all();
         return view('products.index')
-                ->with(compact('products'));
+                ->with(compact('products'))
+                ->with(compact('categories'));
     }
 
     public function show(Product $product)

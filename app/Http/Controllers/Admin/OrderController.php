@@ -29,6 +29,12 @@ class OrderController extends Controller
         return redirect()->route('admin.orders.index');
     }
 
+    public function toggle(Order $order)
+    {
+         $order->delivered = !$order->delivered;
+            $order->save();
+        return redirect()->to('/admin/orders');
+    }
     public function factory()
     {
         $rules = Order_rule::

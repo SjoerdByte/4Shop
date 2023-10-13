@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Type;
 use Illuminate\Http\Request;
@@ -13,13 +14,20 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('admin.products.index')
-                ->with(compact('products'));
+        $categories = Category::all();
+
+        return view('admin.products.index', [
+            'products' => $products,
+            'categories' => $categories
+        ]);
     }
 
     public function create(Request $request)
     {
-        return view('admin.products.create');
+         $categories = Category::all();
+         return view('admin.products.create', [
+             'categories' => $categories
+         ]);
     }
 
     public function store(Request $request)
@@ -27,6 +35,8 @@ class ProductController extends Controller
         $this->validate(request(), [
             'title' => 'required',
             'price' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'category' => 'required',
             'active' => 'required|boolean',
             'leiding' => 'required|boolean',
             'image' => 'nullable|image',
@@ -34,8 +44,10 @@ class ProductController extends Controller
         ]);
 
         $product = new Product();
-        $product->title = $request->title; 
+        $product->title = $request->title;
         $product->price = $request->price;
+        $product->discount = $request->discount;
+        $product->category_id = $request->category;
         $product->active = $request->active;
         $product->leiding = $request->leiding;
         $product->description = $request->description;
@@ -66,7 +78,7 @@ class ProductController extends Controller
             'description' => 'required',
             'sizes' => 'required'
         ]);
-        
+
         $type = new Type();
         $type->title = $request->title;
         $type->description = $request->description;
@@ -93,12 +105,15 @@ class ProductController extends Controller
     {
         $type->delete();
         return redirect()->route('admin.products.types', $product);
-    }    
+    }
 
     public function edit(Product $product)
     {
-        return view('admin.products.edit')
-                ->with(compact('product'));
+        $categories = Category::all();
+        return view('admin.products.edit', [
+            'categories' => $categories,
+            'product' => $product
+        ]);
     }
 
     public function update(Request $request, Product $product)
@@ -106,14 +121,18 @@ class ProductController extends Controller
         $this->validate(request(), [
             'title' => 'required',
             'price' => 'required|numeric',
+            'discount' => 'required|numeric',
+            'category' => 'required',
             'active' => 'required|boolean',
             'leiding' => 'required|boolean',
             'image' => 'nullable|image',
             'description' => 'nullable'
         ]);
 
-        $product->title = $request->title; 
+        $product->title = $request->title;
         $product->price = $request->price;
+        $product->discount = $request->discount;
+        $product->category_id = $request->category;
         $product->active = $request->active;
         $product->leiding = $request->leiding;
         $product->description = $request->description;

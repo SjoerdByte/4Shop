@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdealController;
 use App\Http\Controllers\OrderController;
@@ -31,6 +33,8 @@ Route::post('/winkel/bestellen', [OrderController::class, 'pay'])->name('pay');
 Route::get('/winkel/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::post('/winkel/{product}', [ProductController::class, 'order'])->name('products.order');
 
+Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
+
 Route::get('/bestelling/{order}/{slug}', [OrderController::class, 'show'])->name('order.show');
 Route::get('/bestelling/{order}/{slug}/cancel', [OrderController::class, 'cancel'])->name('order.cancel');
 
@@ -43,6 +47,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
     Route::redirect('/', '/admin/orders')->name('admin.home');
     Route::resource('users', UserController::class, ['as' => 'admin'])->except('show');
+
     Route::resource('products', AdminProductController::class, ['as' => 'admin'])->except('show');
     Route::get('products/{product}/types', [AdminProductController::class, 'types'])->name('admin.products.types');
     Route::get('products/{product}/types/create', [AdminProductController::class, 'types_create'])->name('admin.products.types.create');
@@ -55,9 +60,18 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('orders/packing', [AdminOrderController::class, 'packing'])->name('admin.orders.packing');
     Route::resource('orders', AdminOrderController::class, ['as' => 'admin'])->only(['index', 'show', 'destroy']);
 
+    Route::get('/orders/{order}/toggle', [AdminOrderController::class, 'toggle'])->name('admin.orders.toggle');
+
+    Route::resource('categories', AdminCategoryController::class, ['as' => 'admin'])->except('show');
+    Route::get('categories/{category}/types', [AdminCategoryController::class, 'name'])->name('admin.categories.types');
+    Route::get('categories/{category}/types/create', [AdminCategoryController::class, 'types_create'])->name('admin.categories.types.create');
+    Route::post('categories/{category}/types/create', [AdminCategoryController::class, 'types_store'])->name('admin.categories.types.store');
+    Route::delete('categories/{category}/types/{type}', [AdminCategoryController::class, 'types_delete'])->name('admin.categories.types.delete');
+
 });
 
 Route::view('/login', 'auth.login')->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+

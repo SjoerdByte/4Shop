@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
 @section('content')
-	
+
 	<div class="d-flex justify-content-between align-items-center">
 		<div>
 			<h4>Bestelling #{{ $order->slug }}</h4>
@@ -10,13 +10,14 @@
 		<form action="{{ route('admin.orders.destroy', $order) }}" method="POST">
 			{{ csrf_field() }}
 			{{ method_field('DELETE') }}
-			<button type="submit" class="btn btn-danger">Annuleren</a>
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-warning">Terug naar overzicht</a>
+			<button type="submit" class="btn btn-danger">Verwijderen</button>
 		</form>
-		
+
 	</div>
 
 	<table class="table mt-4">
-	
+
 		<?php $total = 0; ?>
 		@foreach($order->rules as $rule)
 			<tr>

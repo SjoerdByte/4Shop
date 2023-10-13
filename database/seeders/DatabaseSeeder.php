@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\Type;
 use App\Models\Size;
 use App\Models\User;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,8 +20,18 @@ class DatabaseSeeder extends Seeder
         $user = new User();
         $user->name = "Admin User";
         $user->email = "winkelbeheer@example.com";
-        $user->password = '$2y$10$MlAE0UDpKEi.WIsyNu43s.jxmQ9PzXEyDcMKfSfNOHwOTZxGEJ16m';
+        $user->password = bcrypt("admin");
         $user->save();
+
+        /////////////////////////////////
+
+        $category_kleding = new Category();
+        $category_kleding->name = "Kleding";
+        $category_kleding->save();
+
+        $category_overige = new Category();
+        $category_overige->name = "Overige";
+        $category_overige->save();
 
         /////////////////////////////////
 
@@ -30,6 +41,7 @@ class DatabaseSeeder extends Seeder
         $product->price = 29.00;
         $product->leiding = true;
         $product->image = 'img/hoody.png';
+        $product->category_id = $category_kleding->id;
         $product->save();
         $product->refresh();
         if(array_key_exists('discount', $product->getAttributes()))
@@ -76,6 +88,7 @@ class DatabaseSeeder extends Seeder
         $product->price = 22.00;
         $product->leiding = true;
         $product->image = 'img/polo.png';
+        $product->category_id = $category_kleding->id;
         $product->save();
 
         $type = new Type();
@@ -116,6 +129,7 @@ class DatabaseSeeder extends Seeder
         $product->price = 7.50;
         $product->leiding = false;
         $product->image = 'img/jeugd.jpg';
+        $product->category_id = $category_kleding->id;
         $product->save();
 
         $type = new Type();
@@ -156,6 +170,7 @@ class DatabaseSeeder extends Seeder
         $product->price = 16.00;
         $product->leiding = true;
         $product->image = 'img/staf.jpg';
+        $product->category_id = $category_kleding->id;
         $product->save();
 
         $type = new Type();
@@ -211,6 +226,7 @@ class DatabaseSeeder extends Seeder
         $product->price = 1.00;
         $product->leiding = false;
         $product->image = 'img/keycords.jpg';
+        $product->category_id = $category_overige->id;
         $product->save();
 
         $type = new Type();

@@ -2,25 +2,73 @@
 
 @section('content')
 
-<div class="d-flex align-items-center flex-column my-5"> 
+<div class="d-flex align-items-center flex-column my-5">
 
 	<form action="{{ route('admin.products.update', $product) }}" method="POST" style="min-width: 320px;" enctype="multipart/form-data">
-		
+
 		<h4>Product aanpassen</h4>
 
 		<div class="form-group">
 			<label for="title">Titel</label>
 			<input type="text" id="title" name="title" class="form-control" value="{{ old('title', $product->title) }}">
 		</div>
+        <div class="form-group">
+            <label for="category">Categorie</label>
+            <select name="category" id="category" class="form-control">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}" @if(old('category', $product->category_id) == $category->id) selected @endif>{{ $category->name }}</option>
+                @endforeach
+            </select>
+        </div>
 		<div class="form-group">
 			<label for="price">Prijs</label>
 			<div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		        	<div class="input-group-text">&euro;</div>
 		        </div>
-				<input type="number" min="0" id="price" name="price" class="form-control" value="{{ old('price', $product->price) }}">
+				<input type="number" min="0" id="price" name="price" class="form-control" value="{{$product->getRawOriginal('price')}}">
 			</div>
 		</div>
+
+        <div class="form-group">
+            <label for="discount">Korting</label>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">%</div>
+                </div>
+                <input type="number" min="0" id="discount" name="discount" class="form-control" value="{{old('discount', $product->discount)}}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="newPrice">Niewe prijs</label>
+            <div class="input-group mb-2">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">&euro;</div>
+                    </div>
+                    <input type="number" min="0" id="newPrice" name="newPrice" class="form-control" value="{{ old('price', $product->price) }}" readonly>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const num1Input = document.getElementById("price");
+            const num2Input = document.getElementById("discount");
+            const resultInput = document.getElementById("newPrice");
+
+            num1Input.addEventListener("input", calculateResult);
+            num2Input.addEventListener("input", calculateResult);
+
+            function calculateResult() {
+                const price = parseFloat(num1Input.value);
+                const discount = parseFloat(num2Input.value);
+                const calculatedResult = price - ((price / 100) * discount)
+                resultInput.value = calculatedResult;
+            }
+        </script>
+
+
 		<div class="form-group my-4">
 			<div class="form-check form-check-inline">
 				<input class="form-check-input" type="radio" name="active" id="active1" value="1" @if(old('active', $product->active)) checked @endif>
